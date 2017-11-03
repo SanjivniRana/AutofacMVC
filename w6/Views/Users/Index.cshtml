@@ -1,0 +1,73 @@
+﻿@model IEnumerable<w6.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add Employee", "Create", null, new { @class = "btn btn-primary", @style = "background-color:#2196F3;" })
+</p>
+<form id="frmsearch" action="~/Catalog/Search" method="get">
+    <input id="q" name="q" value="" placeholder="Search" style="width:275px;" />
+</form>
+<br /><br />
+<table class="table table-bordered table-hover table-striped table-responsive" >
+    
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.Image)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPersonMarried)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ct)
+        </th>
+        <th>Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem=> item.Image)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPersonMarried)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ct)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

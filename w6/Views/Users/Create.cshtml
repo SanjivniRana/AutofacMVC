@@ -1,0 +1,230 @@
+﻿@model w6.Models.User
+
+@{
+    ViewBag.Title = "Create";
+}
+<style>
+    .btn-default{color:white; background-color:#4285F4}
+    .btn-default2{color:black;background-color:#f5f5f5 }
+</style>
+<h2>Add New Employee</h2>
+
+<div class="col-md-6">
+
+    
+        @*<style type="text/css">
+            body {
+                font-family: Arial;
+                font-size: 10pt;
+            }
+
+            #dvPreview {
+                filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+                min-height: 200px;
+                min-width: 200px;
+                display: none;
+            }
+        </style>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script language="javascript" type="text/javascript">
+                $(function () {
+                    $("#fileupload").change(function () {
+                        $("#dvPreview").html("");
+                        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                        if (regex.test($(this).val().toLowerCase())) {
+                            if ($.browser.msie && parseFloat(jQuery.browser.version) <= 9.0) {
+                                $("#dvPreview").show();
+                                $("#dvPreview")[0].filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = $(this).val();
+                            }
+                            else {
+                                if (typeof (FileReader) != "undefined") {
+                                    $("#dvPreview").show();
+                                    $("#dvPreview").append("<img />");
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        $("#dvPreview img").attr("src", e.target.result);
+                                    }
+                                    reader.readAsDataURL($(this)[0].files[0]);
+                                } else {
+                                    alert("This browser does not support FileReader.");
+                                }
+                            }
+                        } else {
+                            alert("Please upload a valid image file.");
+                        }
+                    });
+                });
+        </script>
+    
+    
+        <div>
+
+            <b>Browse Image</b>
+            <br />
+            <br />
+            <div id="dvPreview">
+            </div><hr />
+            <input id="fileupload" type="file" value="xyz" />
+            <hr />
+        </div>
+    
+</div>*@
+    <style>
+    .btn-file {
+    position: relative;
+    overflow: hidden;
+    }
+    .btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+    }
+
+    #img-upload{
+    width: 100%;
+    }
+    </style>
+
+    <div class="container">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Upload Image</label>
+                
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file">
+                            Browse… <input type="file" id="imgInp">
+                        </span>
+                    </span>
+                    <input type="text" class="form-control" readonly>
+                </div><br />
+                <img id='img-upload' />
+            </div>
+        </div>
+    </div>
+    </div>
+        
+
+
+
+<div class="col-md-6">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>User</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsPersonMarried, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsPersonMarried)
+                        @Html.ValidationMessageFor(model => model.IsPersonMarried, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Sta, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.Sta,
+              new SelectList(ViewBag.StateList, "StateId", "StateName"),
+              "Select state",
+              new { @class = "form-control", @onchange = "FillCity()" })
+                    @Html.ValidationMessageFor(m => m.Sta, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ct, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.Ct,
+       new SelectList(Enumerable.Empty<SelectListItem>(), "CityId", "CityName"),
+              "Select city",
+              new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Ct, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Add Employee" class="btn btn-default" />
+                    <input type="reset" value="Reset" class="btn btn-default2" />
+
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+    </div>
+    
+@section Scripts {
+    <script>
+  function FillCity() {
+    var stateId = $('#Sta').val();
+    $.ajax({
+        url: '/Users/FillCity',
+        type: "GET",
+        dataType: "JSON",
+        data: { State: stateId},
+        success: function (cities) {
+            $("#Ct").html(""); // clear before appending new list
+            $.each(cities, function (i, city) {
+                $("#Ct").append(
+                    $('<option></option>').val(city.CityId).html(city.CityName));
+            });
+        }
+    });
+  }
+    </script>
+}
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/JavaScript.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
